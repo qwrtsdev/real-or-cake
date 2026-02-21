@@ -7,7 +7,7 @@ import { SkeletonBubble } from "@/components/skeleton-bubble"
 import { ComposeBar } from "@/components/compose-bar"
 import { EmptyState } from "@/components/empty-state"
 import { HeaderCard } from "@/components/header-card"
-import { sendPrompt, type ApiResponse } from "@/api/sendMessage"
+import { sendPrompt, sendImageUrl, type ApiResponse } from "@/api/sendMessage"
 
 interface UserMessage {
   id: string
@@ -65,7 +65,9 @@ export default function Page() {
     setIsLoading(true)
 
     try {
-      const response = await sendPrompt(text)
+      const trimmed = text.trim()
+      const isUrl = /^https?:\/\//i.test(trimmed)
+      const response = isUrl ? await sendImageUrl(trimmed) : await sendPrompt(text)
       const botMessage: BotMessage = {
         id: crypto.randomUUID(),
         kind: "bot",
