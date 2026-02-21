@@ -8,7 +8,7 @@ export interface ApiResponse {
 export async function sendPrompt(prompt: string): Promise<ApiResponse> {
   const body = new URLSearchParams({ prompt, lang: "th" })
 
-  const res = await fetch("http://localhost:8000/prompt", {
+  const res = await fetch("http://10.98.245.71:8000/prompt", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: body.toString(),
@@ -22,13 +22,10 @@ export async function sendPrompt(prompt: string): Promise<ApiResponse> {
 }
 
 export async function sendImageUrl(url: string): Promise<ApiResponse> {
-  const body = new URLSearchParams({ url, lang: "th" })
-  console.log("Sending image URL to API:", url)
-  console.log("Request body:", body.toString())
-  const res = await fetch("http://localhost:8000/url", {
+  const res = await fetch("http://10.98.245.71:8000/url", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: body.toString(),
+    body: `url=${encodeURIComponent(url)}&lang=th`,
   })
 
   if (!res.ok) {

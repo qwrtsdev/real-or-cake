@@ -1,12 +1,14 @@
 import { cn } from "@/lib/utils"
 import type { ApiResponse } from "@/api/sendMessage"
+import Image from "next/image"
 
 interface ResultBubbleProps {
   response: ApiResponse
+  imageUrl?: string
   timestamp: string
 }
 
-export function ResultBubble({ response, timestamp }: ResultBubbleProps) {
+export function ResultBubble({ response, imageUrl, timestamp }: ResultBubbleProps) {
   const { result, accuracy, reason } = response
   const unsure = accuracy < 95
 
@@ -26,6 +28,20 @@ export function ResultBubble({ response, timestamp }: ResultBubbleProps) {
   return (
     <div className="flex w-full justify-start">
       <div className="max-w-[80%] rounded-2xl bg-secondary px-4 py-3 md:max-w-[65%]">
+        {/* Uploaded image preview */}
+        {imageUrl && (
+          <div className="mb-3 overflow-hidden rounded-xl">
+            <Image
+              src={imageUrl}
+              alt="Uploaded image"
+              width={400}
+              height={300}
+              className="w-full object-cover"
+              unoptimized
+            />
+          </div>
+        )}
+
         {/* Big verdict */}
         <p className={cn("text-3xl font-bold tracking-tight", labelColor)}>
           {label}

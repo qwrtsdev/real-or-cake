@@ -8,6 +8,7 @@ import { ComposeBar } from "@/components/compose-bar"
 import { EmptyState } from "@/components/empty-state"
 import { HeaderCard } from "@/components/header-card"
 import { sendPrompt, sendImageUrl, type ApiResponse } from "@/api/sendMessage"
+import { uploadImageToSupabase } from "@/lib/uploadImage"
 
 interface UserMessage {
   id: string
@@ -20,6 +21,7 @@ interface BotMessage {
   id: string
   kind: "bot"
   response: ApiResponse
+  imageUrl?: string
   timestamp: string
 }
 
@@ -65,13 +67,24 @@ export default function Page() {
     setIsLoading(true)
 
     try {
-      const trimmed = text.trim()
-      const isUrl = /^https?:\/\//i.test(trimmed)
-      const response = isUrl ? await sendImageUrl(trimmed) : await sendPrompt(text)
+      let response: ApiResponse
+      let imageUrl: string | undefined
+
+      if (file) {
+        // Upload to Firebase, get URL, then call the image API
+        imageUrl = await uploadImageToSupabase(file)
+        response = await sendImageUrl(imageUrl)
+      } else {
+        const trimmed = text.trim()
+        const isUrl = /^https?:\/\//i.test(trimmed)
+        response = isUrl ? await sendImageUrl(trimmed) : await sendPrompt(text)
+      }
+
       const botMessage: BotMessage = {
         id: crypto.randomUUID(),
         kind: "bot",
         response,
+        imageUrl,
         timestamp: formatTime(),
       }
       setMessages((prev) =>
@@ -134,6 +147,7 @@ export default function Page() {
                   <ResultBubble
                     key={msg.id}
                     response={msg.response}
+                    imageUrl={msg.imageUrl}
                     timestamp={msg.timestamp}
                   />
                 )
