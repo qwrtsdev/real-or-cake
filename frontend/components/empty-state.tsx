@@ -8,10 +8,10 @@ export function EmptyState() {
       </div>
       <div className="text-center">
         <h2 className="text-base font-medium text-foreground">
-          No messages yet
+          ยังไม่มีข้อความ
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Start a conversation by typing below
+          เริ่มการสนทนาด้วยการพิมพ์ในกล่องข้อความด้านล่าง
         </p>
       </div>
     </div>

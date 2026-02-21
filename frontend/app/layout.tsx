@@ -1,9 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const ls = localFont({
+  src: [
+    {
+      path: "../public/fonts/LINESeedSansTH_W_Th.woff2",
+      weight: "300",
+      style: "thin",
+    },
+    {
+      path: "../public/fonts/LINESeedSansTH_W_Rg.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/LINESeedSansTH_W_Bd.woff2",
+      weight: "700",
+      style: "bold",
+    },
+  ],
+});
 
 export const metadata: Metadata = {
   title: "Real or Cake",
@@ -17,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-sans antialiased" suppressHydrationWarning>
+      <body className={`${ls.className} antialiased`} suppressHydrationWarning>
         {children}
       </body>
     </html>

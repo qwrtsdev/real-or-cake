@@ -101,7 +101,7 @@ export function MediaDropZone({ onFileSelect, selectedFile }: MediaDropZoneProps
         <ImageIcon className="h-5 w-5 text-muted-foreground" />
       </div>
       <p className="px-4 text-center text-sm text-muted-foreground">
-        Place image, drag or select files here
+        วางรูป หรือลากไฟล์มาที่นี่
       </p>
       <input
         ref={inputRef}
