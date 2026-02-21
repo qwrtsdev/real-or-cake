@@ -1,4 +1,10 @@
 from google import genai
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
+api_key = os.getenv("API_KEY")
+db_password = os.getenv("DB_PASSWORD")
 
 client = genai.Client(api_key="AIzaSyB4ccEW4IKSXVfsaO4eqoURQodpzLWRuLc")
 
